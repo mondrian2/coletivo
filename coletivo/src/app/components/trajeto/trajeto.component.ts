@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { TrajetoService } from 'src/app/services/trajeto.service';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 
 @Component({
   selector: 'app-trajeto',
@@ -19,8 +19,13 @@ export class TrajetoComponent implements OnInit {
 
   constructor(
     private serv: TrajetoService,
-    private route: ActivatedRoute
+    private activeroute: ActivatedRoute,
+    private route: Router
   ) { }
+
+  home(){
+    this.route.navigate(['/home']);
+  }
 
   mensagem(m: string) {
     this.msg = m;
@@ -58,7 +63,7 @@ export class TrajetoComponent implements OnInit {
     // limpa as variáveis
     this.limpar();
     // captura o parâmetro da url com código da linha de ônibus
-    this.route.paramMap.subscribe(p => {
+    this.activeroute.paramMap.subscribe(p => {
       this.param = p;
       // solicita o trajeto passando o código da linha de ônibus
       this.serv.getTrajeto(this.param.params.id)

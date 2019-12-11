@@ -18,6 +18,10 @@ export class OnibusComponent implements OnInit {
     this.route.navigate(['/trajeto', id]);
   }
 
+  home(){
+    this.route.navigate(['/home']);
+  }
+
   mensagem(m: string) {
     this.msg = m;
   }

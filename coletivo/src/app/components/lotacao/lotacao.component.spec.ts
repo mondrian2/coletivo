@@ -1,6 +1,8 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { LotacaoComponent } from './lotacao.component';
+import { RouterTestingModule } from '@angular/router/testing';
+import { HttpClientTestingModule } from '@angular/common/http/testing';
 
 describe('LotacaoComponent', () => {
   let component: LotacaoComponent;
@@ -8,7 +10,8 @@ describe('LotacaoComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ LotacaoComponent ]
+      imports: [RouterTestingModule, HttpClientTestingModule],
+      declarations: [ LotacaoComponent ],
     })
     .compileComponents();
   }));
@@ -19,7 +22,7 @@ describe('LotacaoComponent', () => {
     fixture.detectChanges();
   });
 
-  it('should create', () => {
+  it('deve criar', () => {
     expect(component).toBeTruthy();
   });
 });
