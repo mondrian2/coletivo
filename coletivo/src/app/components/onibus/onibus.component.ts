@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { OnibusService } from 'src/app/services/onibus.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-onibus',
@@ -8,15 +9,24 @@ import { OnibusService } from 'src/app/services/onibus.service';
 })
 export class OnibusComponent implements OnInit {
 
-  onibus: any
+  onibus: any;
+  msg: string;
 
-  constructor( private serv: OnibusService) { }
+  constructor( private serv: OnibusService, private route: Router ) { }
+
+  setItinerario(id: number) {
+    this.route.navigate(['/trajeto', id]);
+  }
+
+  mensagem(m: string) {
+    this.msg = m;
+  }
 
   ngOnInit() {
     this.serv.getBus().subscribe(
         o => this.onibus = o,
-        e => console.log(e),
-        ()=> console.log("completo")
+        e => this.mensagem('Serviço fora do ar'),
+        () => console.log('completo')
       );
   }
 

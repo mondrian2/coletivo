@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { TrajetoService } from 'src/app/services/trajeto.service';
+import { ActivatedRoute } from '@angular/router';
 
 @Component({
   selector: 'app-trajeto',
@@ -8,25 +9,71 @@ import { TrajetoService } from 'src/app/services/trajeto.service';
 })
 export class TrajetoComponent implements OnInit {
 
-  trajeto: any
-  onibus: any
+  trajeto: any;
+  trajetoFinal = [];
+  param: any;
+  linhaId: string;
+  linhaCod: string;
+  linhaNome: string;
+  msg: string;
 
-  constructor(private serv: TrajetoService) { }
+  constructor(
+    private serv: TrajetoService,
+    private route: ActivatedRoute
+  ) { }
 
-  getTrajeto(id: number){
-    this.serv.getTrajeto(id).subscribe(
-      t => this.trajeto = t,
-      e => console.log(e),
-      () => console.log( "getOnibusTrajeto completo")
-    )
+  mensagem(m: string) {
+    this.msg = m;
+  }
+
+  limpar() {
+    this.trajeto = null;
+    this.trajetoFinal = [];
+    this.param = null;
+    this.linhaId = null;
+    this.linhaCod = null;
+    this.linhaNome = null;
+    this.msg = null;
+  }
+
+  getTrajetoFinal(t: any) {
+    // mapeia o array
+    this.trajeto = Object.keys(t).map(key => ({ type: key, value: t[key] }));
+    // remove os 3 últimos itens do retorno que não fazem referências às coordenadas de latitude e longitude
+    for (let i = 0; i < this.trajeto.length; i++) {
+      if (i < (this.trajeto.length - 3)) {
+        this.trajeto[i].type = parseInt(this.trajeto[i].type, 10);
+        this.trajetoFinal.push(this.trajeto[i]);
+      }
+    }
+  }
+
+  getLinha(t: any) {
+    this.linhaCod = t.codigo;
+    this.linhaId = t.idlinha;
+    this.linhaNome = t.nome;
   }
 
   ngOnInit() {
-    this.serv.getOnibus().subscribe(
-      o => this.onibus = o,
-      e => console.log(e),
-      () => console.log( "getOnibus completo")
-    )
+    // limpa as variáveis
+    this.limpar();
+    // captura o parâmetro da url com código da linha de ônibus
+    this.route.paramMap.subscribe(p => {
+      this.param = p;
+      // solicita o trajeto passando o código da linha de ônibus
+      this.serv.getTrajeto(this.param.params.id)
+        .subscribe(t => {
+          this.trajeto = t;
+          // setar identificação da linha
+          this.getLinha(this.trajeto);
+          // trata o trajeto final
+          this.getTrajetoFinal(this.trajeto);
+        },
+        e => this.mensagem('Serviço fora do ar')
+        );
+    },
+    e => this.mensagem('Serviço fora do ar')
+    );
   }
 
 }

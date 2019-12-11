@@ -7,15 +7,21 @@ import { LotacaoService } from 'src/app/services/lotacao.service';
   styleUrls: ['./lotacao.component.sass']
 })
 export class LotacaoComponent implements OnInit {
-  lotacoes: any
+  lotacoes: any;
+  msg: string;
+
   constructor(private serv: LotacaoService) { }
+
+  mensagem(m: string) {
+    this.msg = m;
+  }
 
   ngOnInit() {
     this.serv.getLotacao().subscribe(
       l => this.lotacoes = l,
-      e => console.log(e),
+      e => this.mensagem('Serviço fora do ar'),
       () => console.log('get lotacao completo')
-    )
+    );
   }
 
 }

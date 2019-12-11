@@ -9,7 +9,7 @@ export class LotacaoService {
 
   constructor(private http: HttpClient) { }
 
-  getLotacao () {
-    return this.http.get('http://www.poatransporte.com.br/php/facades/process.php?a=nc&p=%&t=l')
+  getLotacao() {
+    return this.http.get('http://www.poatransporte.com.br/php/facades/process.php?a=nc&p=%&t=l');
   }
 }

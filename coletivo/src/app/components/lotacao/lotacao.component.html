@@ -1,3 +1,31 @@
-<ul>
-    <li *ngFor="let l of lotacoes"> {{l.codigo}} - {{l.nome}} </li>
-</ul>
+<nav class="navbar navbar-light bg-light col-md-6 offset-md-3">
+    <a class="btn btn-secondary btn-lg navbar-brand" [routerLink]="['']">
+        <i class="fas fa-arrow-left text-white"></i>
+    </a>
+    <h3 class="text-info">Lotação</h3>
+</nav>
+<div class="row" *ngIf="msg">
+    <div class="alert alert-warning alert-dismissible fade show col-md-4 col-xs-6 offset-md-4 m-3" role="alert">
+        {{msg}}
+        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+        </button>
+    </div>
+</div>
+<div class="row">
+    <div class="col-md-4 offset-md-4">
+        <div class="rounded-lg text-center m-5">
+            <img src="../../../assets/img/van.svg" class="img-fluid">
+        </div>
+    </div>
+</div>
+<div class="row">
+    <div class="col-md-6 offset-md-3">
+        <ul class="list-group">
+            <li *ngFor="let l of lotacoes" class="list-group-item d-flex justify-content-between align-items-center">
+                {{l.nome}}
+                <div><span class="badge badge-info badge-pill"> {{l.codigo}}</span></div>
+            </li>
+        </ul>
+    </div>
+</div>
