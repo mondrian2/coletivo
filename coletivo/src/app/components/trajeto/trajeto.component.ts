@@ -16,6 +16,7 @@ export class TrajetoComponent implements OnInit {
   linhaCod: string;
   linhaNome: string;
   msg: string;
+  loading: boolean;
 
   constructor(
     private serv: TrajetoService,
@@ -23,22 +24,12 @@ export class TrajetoComponent implements OnInit {
     private route: Router
   ) { }
 
-  home(){
+  home() {
     this.route.navigate(['/home']);
   }
 
   mensagem(m: string) {
     this.msg = m;
-  }
-
-  limpar() {
-    this.trajeto = null;
-    this.trajetoFinal = [];
-    this.param = null;
-    this.linhaId = null;
-    this.linhaCod = null;
-    this.linhaNome = null;
-    this.msg = null;
   }
 
   getTrajetoFinal(t: any) {
@@ -51,6 +42,7 @@ export class TrajetoComponent implements OnInit {
         this.trajetoFinal.push(this.trajeto[i]);
       }
     }
+    return this.trajetoFinal;
   }
 
   getLinha(t: any) {
@@ -60,8 +52,7 @@ export class TrajetoComponent implements OnInit {
   }
 
   ngOnInit() {
-    // limpa as variáveis
-    this.limpar();
+    this.loading = true;
     // captura o parâmetro da url com código da linha de ônibus
     this.activeroute.paramMap.subscribe(p => {
       this.param = p;
@@ -69,6 +60,7 @@ export class TrajetoComponent implements OnInit {
       this.serv.getTrajeto(this.param.params.id)
         .subscribe(t => {
           this.trajeto = t;
+          this.loading = false;
           // setar identificação da linha
           this.getLinha(this.trajeto);
           // trata o trajeto final
@@ -76,8 +68,7 @@ export class TrajetoComponent implements OnInit {
         },
         e => this.mensagem('Serviço fora do ar')
         );
-    },
-    e => this.mensagem('Serviço fora do ar')
+      }
     );
   }
 

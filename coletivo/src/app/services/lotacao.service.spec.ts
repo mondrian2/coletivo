@@ -1,4 +1,4 @@
-import { TestBed } from '@angular/core/testing';
+import { TestBed, fakeAsync, tick } from '@angular/core/testing';
 
 import { LotacaoService } from './lotacao.service';
 import { RouterTestingModule } from '@angular/router/testing';
@@ -14,4 +14,19 @@ describe('LotacaoService', () => {
     const service: LotacaoService = TestBed.get(LotacaoService);
     expect(service).toBeTruthy();
   });
+
+  it('deve consultar o serviço de linhas de lotaçao',  fakeAsync(
+    () => {
+      const service: LotacaoService = TestBed.get(LotacaoService);
+      let resp = {};
+      service.getLotacao().subscribe(
+        t => {
+          resp = t;
+        },
+        e => {}
+      );
+      tick(100);
+      expect(resp).toBeTruthy();
+    }
+  ));
 });

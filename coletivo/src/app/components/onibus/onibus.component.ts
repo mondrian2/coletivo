@@ -11,6 +11,7 @@ export class OnibusComponent implements OnInit {
 
   onibus: any;
   msg: string;
+  loading: boolean;
 
   constructor( private serv: OnibusService, private route: Router ) { }
 
@@ -18,17 +19,22 @@ export class OnibusComponent implements OnInit {
     this.route.navigate(['/trajeto', id]);
   }
 
-  home(){
+  getOninus() {
+    return this.onibus;
+  }
+
+  home() {
     this.route.navigate(['/home']);
   }
 
   mensagem(m: string) {
-    this.msg = m;
+    return this.msg = m;
   }
 
   ngOnInit() {
-    this.serv.getBus().subscribe(
-        o => this.onibus = o,
+    this.loading = false;
+    return this.serv.getBus().subscribe(
+        o => {this.onibus = o; this.loading = false; },
         e => this.mensagem('Serviço fora do ar'),
         () => console.log('completo')
       );

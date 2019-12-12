@@ -1,4 +1,4 @@
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { async, ComponentFixture, TestBed, tick, fakeAsync } from '@angular/core/testing';
 
 import { LotacaoComponent } from './lotacao.component';
 import { RouterTestingModule } from '@angular/router/testing';
@@ -25,4 +25,20 @@ describe('LotacaoComponent', () => {
   it('deve criar', () => {
     expect(component).toBeTruthy();
   });
+
+  it('deve consultar o servico de lotacão', fakeAsync(
+    () => {
+      const lotacao = component.getLotacoes();
+      expect(lotacao).toBeTruthy();
+    }
+  ));
+
+  it('deve criar uma mensagem', () => {
+    const mensagem = component.mensagem('teste');
+    expect(mensagem).toEqual('teste');
+  });
+
+
+
+
 });
