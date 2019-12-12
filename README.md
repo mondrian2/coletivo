@@ -1,4 +1,6 @@
 # Coletivo
+Relaciona as linhas de Ônibus e Lotações e lista o trajeto com opção de visualizar o ponto no googlemaps.
+
 
 This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 7.3.1.
 
